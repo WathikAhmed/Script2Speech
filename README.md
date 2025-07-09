@@ -1,6 +1,6 @@
 # Script2Speech
 
-Convert text files to speech using Coqui TTS engine.
+Convert text files to speech using Coqui TTS engine with VCTK VITS model (multi-speaker female voice).
 
 ## Setup
 
@@ -32,10 +32,24 @@ python test_tts.py
 
 Output audio will be saved as `test_output.wav`.
 
-## Issue & Fix
+## Issues & Fixes
 
+### Issue 1: Missing lzma module
 **Problem**: `ModuleNotFoundError: No module named '_lzma'`
 
 **Cause**: macOS system Python lacks the lzma compression module needed by TTS dependencies.
 
 **Solution**: Used Miniconda Python distribution which includes all standard library modules including `_lzma`.
+
+### Issue 2: Missing espeak backend
+**Problem**: `[!] No espeak backend found. Install espeak-ng or espeak to your system.`
+
+**Cause**: VCTK VITS model requires espeak-ng for phoneme processing, which isn't available via standard package managers on macOS without admin access.
+
+**Solution**: Built espeak-ng from source using conda-installed autotools:
+```bash
+source $HOME/miniconda3/bin/activate tts
+conda install -c conda-forge automake autoconf libtool -y
+git clone https://github.com/espeak-ng/espeak-ng.git
+cd espeak-ng && ./autogen.sh && ./configure --prefix=$HOME/miniconda3/envs/tts && make && make install
+```
