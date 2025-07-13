@@ -7,7 +7,7 @@ try:
     print("✅ TTS imported successfully!")
     
     print("Testing TTS initialization...")
-    tts = TTS(model_name="tts_models/en/vctk/vits")
+    tts = TTS(model_name="tts_models/multilingual/multi-dataset/xtts_v2")
     print("✅ TTS model loaded successfully!")
     
     print("Reading script from file...")
@@ -18,7 +18,7 @@ try:
     with tqdm(total=100, desc="Processing", unit="%") as pbar:
         pbar.update(20)
         time.sleep(0.1)
-        tts.tts_to_file(text=text, file_path="test_output.wav", speaker="p225")
+        tts.tts_to_file(text=text, file_path="test_output.wav", language="en", speaker="Claribel Dervla")
         pbar.update(80)
     
     print("✅ Audio generated successfully!")
